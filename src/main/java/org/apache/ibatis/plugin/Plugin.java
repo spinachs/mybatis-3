@@ -66,6 +66,12 @@ public class Plugin implements InvocationHandler {
     }
   }
 
+  /**
+   * 将拦截器注解中配置的类和方法转换成拦截类->类方法集合。
+   *
+   * @param interceptor
+   * @return [拦截类，类中拦截方法集合]
+   */
   private static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) {
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
     // issue #251
@@ -86,6 +92,13 @@ public class Plugin implements InvocationHandler {
     return signatureMap;
   }
 
+  /**
+   * 获取拦截类与拦截器配置信息中的交集。
+   *
+   * @param type 拦截类
+   * @param signatureMap 拦截器注解配置信息
+   * @return
+   */
   private static Class<?>[] getAllInterfaces(Class<?> type, Map<Class<?>, Set<Method>> signatureMap) {
     Set<Class<?>> interfaces = new HashSet<>();
     while (type != null) {
